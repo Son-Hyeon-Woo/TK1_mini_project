@@ -1,24 +1,98 @@
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="utf-8">
     <title>로드뷰 생성하기</title>
-    
+    <!-- custom css CSS 수정 -->
+    <style>
+        body {
+            margin: 7px;
+            background-color: #fff;
+            }
+        @font-face {
+            font-family: 'IM_Hyemin-Bold';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Bold.woff2') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        .Hyemin{ font-family: 'IM_Hyemin-Bold', normal; }
+        .italic{ font-style: italic }
+        .goquiz button {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: calc(1rem + 2px);
+            }
+        .gohome {
+            position: absolute; left : 10px; top : 5px;
+            font-size: 0.55rem;
+            font-weight: 100;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: calc(1rem + 2px);
+            padding: 0.4rem 5rem;
+            font-size: 1rem;
+            }    
+        .custombtn {
+            display: inline-block;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #fff;
+            background-color: #2a5555;
+            border-color: #2a5555;
+            text-align: center;
+            text-decoration: none;
+            vertical-align: middle;
+            cursor: pointer;
+            -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                    user-select: none;
+            border: 1px solid transparent;
+            padding: 0.4rem 10rem;
+            font-size: 1.5rem;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            }
+            .custombtn:hover {
+            color: #fff;
+            background-color: #244848;
+            border-color: #224444;
+            }
+
+        .minimap {
+            position: absolute;
+            bottom : 70px;
+            right : 6px;
+            width: 500px;
+            height: 280px;
+            border-radius: 30px;
+          }
+        .minimap:hover {
+            transition : 0.5s;
+            width: 600px;
+            height: 336px;
+            border-radius: 30px;
+          }
+    </style>
 </head>
 <body>
-    <h1>QUIZ</h1>
-    <hr>
 
-    <input type="hidden" id="lat" name="variable" value="{{ ans.place_lat }}">
-    <input type="hidden" id="long" name="variable" value="{{ ans.place_long  }}">
+<input type="hidden" id="lat" name="variable" value="{{ ans.place_lat }}">
+<input type="hidden" id="long" name="variable" value="{{ ans.place_long  }}">
+
+<nav class="Hyemin" style = 'text-align: center;';>
+    <h2>시작한 장소를 맞추세요</h2>
+    <button class="custombtn gohome Hyemin"  id="submitButton" type="botton" onclick="location.href='http://127.0.0.1:8000/map/home'"> 홈으로 </button></div>
+
+</nav>
 
 <!-- 로드뷰를 표시할 div 입니다 -->
-<div id="roadview" style="width:55%;height:500px;"></div>
-
+<!-- 로드뷰를 표시할 div 입니다 -->
+<div class="masthead" id="roadview" style="width:100%;height:600px;border-radius: 30px"></div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=82cdfefd8c371330aa8531c5f89338c6"></script>
-
 <script>
 var lat = document.getElementById("lat").value; //html element 가져오기
 var long = document.getElementById("long").value;
@@ -33,339 +107,50 @@ var position = new kakao.maps.LatLng(lat, long);
 roadviewClient.getNearestPanoId(position, 50, function(panoId) {
     roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
 });
-
 </script>
-<form>
-    <style>
-        @import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<!-- 미니맵를 표시할 div 입니다 -->
+<!-- 미니맵를 표시할 div 입니다 -->
+<div id="map" class = 'minimap'></div>
+<p><em>지도를 클릭해주세요!</em></p> 
+<div id="clickLatlng"></div>
 
-        button {
-            margin: 20px;
-        }
-        
-        .w-btn {
-            position: relative;
-            border: none;
-            display: inline-block;
-            padding: 15px 30px;
-            border-radius: 15px;
-            font-family: "paybooc-Light", sans-serif;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.25s;
-        }
-        
-        .w-btn-outline {
-            position: relative;
-            padding: 15px 30px;
-            border-radius: 15px;
-            font-family: "paybooc-Light", sans-serif;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.25s;
-        }
-        
-        .w-btn-indigo {
-            background-color: aliceblue;
-            color: #1e6b7b;
-        }
-        
-        .w-btn-indigo-outline {
-            border: 3px solid aliceblue;
-            color: #1e6b7b;
-        }
-        
-        .w-btn-indigo-outline:hover {
-            color: #1e6b7b;
-            background: aliceblue;
-        }
-        
-        .w-btn-green {
-            background-color: #77af9c;
-            color: #d7fff1;
-        }
-        
-        .w-btn-green2 {
-            background-color: #519d9e;
-            color: #9dc8c8;
-        }
-        
-        .w-btn-green-outline {
-            border: 3px solid #77af9c;
-            color: darkgray;
-        }
-        
-        .w-btn-green2-outline {
-            border: 3px solid #519d9e;
-            color: darkgray;
-        }
-        
-        .w-btn-green-outline:hover {
-            background-color: #77af9c;
-            color: #d7fff1;
-        }
-        
-        .w-btn-green2-outline:hover {
-            background-color: #519d9e;
-            color: #9dc8c8;
-        }
-        
-        .w-btn-brown {
-            background-color: #ce6d39;
-            color: #ffeee4;
-        }
-        
-        .w-btn-brown-outline {
-            border: 3px solid #ce6d39;
-            color: #b8b8b8;
-        }
-        
-        .w-btn-brown-outline:hover {
-            background-color: #ce6d39;
-            color: #ffeee4;
-        }
-        
-        .w-btn-blue {
-            background-color: #6aafe6;
-            color: #d4dfe6;
-        }
-        
-        .w-btn-pink {
-            background-color: #f199bc;
-            color: #d4dfe6;
-        }
-        
-        .w-btn-gray {
-            background-color: #a3a1a1;
-            color: #e3dede;
-        }
-        
-        .w-btn-red {
-            background-color: #ff5f2e;
-            color: #e1eef6;
-        }
-        
-        .w-btn-skin {
-            background-color: #f8e6e0;
-            color: #6e6e6e;
-        }
-        
-        .w-btn-yellow {
-            background-color: #fce205;
-            color: #6e6e6e;
-        }
-        
-        .w-btn-blue-outline {
-            border: 3px solid #6aafe6;
-            color: #6e6e6e;
-        }
-        
-        .w-btn-pink-outline {
-            border: 3px solid #f199bc;
-            color: #6e6e6e;
-        }
-        
-        .w-btn-gray-outline {
-            border: 3px solid #a3a1a1;
-            color: #6e6e6e;
-        }
-        
-        .w-btn-red-outline {
-            border: 3px solid #ff5f2e;
-            color: #6e6e6e;
-        }
-        
-        .w-btn-skin-outline {
-            border: 3px solid #f8e6e0;
-            color: #6e6e6e;
-        }
-        
-        .w-btn-yellow-outline {
-            border: 3px solid #fce205;
-            color: #6e6e6e;
-        }
-        
-        .w-btn-blue-outline:hover {
-            background-color: #6aafe6;
-            color: #d4dfe6;
-        }
-        
-        .w-btn-pink-outline:hover {
-            background-color: #f199bc;
-            color: #d4dfe6;
-        }
-        
-        .w-btn-gray-outline:hover {
-            background-color: #a3a1a1;
-            color: #e3dede;
-        }
-        
-        .w-btn-red-outline:hover {
-            background-color: #ff5f2e;
-            color: #e1eef6;
-        }
-        
-        .w-btn-skin-outline:hover {
-            background-color: #f8e6e0;
-            color: #6e6e6e;
-        }
-        
-        .w-btn-yellow-outline:hover {
-            background-color: #fce205;
-            color: #6e6e6e;
-        }
-        
-        .w-btn:hover {
-            letter-spacing: 2px;
-            transform: scale(1.2);
-            cursor: pointer;
-        }
-        
-        .w-btn-outline:hover {
-            letter-spacing: 2px;
-            transform: scale(1.2);
-            cursor: pointer;
-        }
-        
-        .w-btn:active {
-            transform: scale(1.5);
-        }
-        
-        .w-btn-outline:active {
-            transform: scale(1.5);
-        }
-        
-        .w-btn-gra1 {
-            background: linear-gradient(-45deg, #33ccff 0%, #ff99cc 100%);
-            color: white;
-        }
-        
-        .w-btn-gra2 {
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            color: white;
-        }
-        
-        .w-btn-gra3 {
-            background: linear-gradient(
-                45deg,
-                #ff0000,
-                #ff7300,
-                #fffb00,
-                #48ff00,
-                #00ffd5,
-                #002bff,
-                #7a00ff,
-                #ff00c8,
-                #ff0000
-            );
-            color: white;
-        }
-        
-        .w-btn-gra-anim {
-            background-size: 400% 400%;
-            animation: gradient1 5s ease infinite;
-        }
-        
-        @keyframes gradient1 {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-        
-        @keyframes gradient2 {
-            0% {
-                background-position: 100% 50%;
-            }
-            50% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
-        }
-        
-        @keyframes ring {
-            0% {
-                width: 30px;
-                height: 30px;
-                opacity: 1;
-            }
-            100% {
-                width: 300px;
-                height: 300px;
-                opacity: 0;
-            }
-        }
-        
-        .w-btn-neon2 {
-            position: relative;
-            border: none;
-            min-width: 200px;
-            min-height: 50px;
-            background: linear-gradient(
-                90deg,
-                rgba(129, 230, 217, 1) 0%,
-                rgba(79, 209, 197, 1) 100%
-            );
-            border-radius: 1000px;
-            color: darkslategray;
-            cursor: pointer;
-            box-shadow: 12px 12px 24px rgba(79, 209, 197, 0.64);
-            font-weight: 700;
-            transition: 0.3s;
-        }
-        
-        .w-btn-neon2:hover {
-            transform: scale(1.2);
-        }
-        
-        .w-btn-neon2:hover::after {
-            content: "";
-            width: 30px;
-            height: 30px;
-            border-radius: 100%;
-            border: 6px solid #00ffcb;
-            position: absolute;
-            z-index: -1;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: ring 1.5s infinite;
-        }
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은 APP KEY를 사용하세요"></script>
+<script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = { 
+        center: new kakao.maps.LatLng(35.87152628630865, 128.60172139697093), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+// 지도를 클릭한 위치에 표출할 마커입니다
+var marker = new kakao.maps.Marker({ 
+    // 지도 중심좌표에 마커를 생성합니다 
+    position: map.getCenter() 
+}); 
+// 지도에 마커를 표시합니다
+marker.setMap(map);
+
+// 지도에 클릭 이벤트를 등록합니다
+// 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
     
-    </style>
-
-    <button class="w-btn w-btn-indigo" type="button">
-        오답
-    </button>
-    <button class="w-btn w-btn-indigo" type="button">
-        오답
-    </button>
-    <button class="w-btn w-btn-indigo" type="button">
-        {{ ans.place_name  }}
-    </button>
-    <button class="w-btn w-btn-indigo" type="button">
-        오답
-    </button>
-</form>
-
-
-
+    // 클릭한 위도, 경도 정보를 가져옵니다 
+    var latlng = mouseEvent.latLng; 
+    
+    // 마커 위치를 클릭한 위치로 옮깁니다
+    marker.setPosition(latlng);
+    
+    var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+    message += '경도는 ' + latlng.getLng() + ' 입니다';
+    
+    var resultDiv = document.getElementById('clickLatlng'); 
+    resultDiv.innerHTML = message;
+    
+});
+</script>
 
 </body>
-
 </html>

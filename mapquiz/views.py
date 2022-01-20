@@ -7,8 +7,6 @@ def quiz(request):
     place_list = Place.objects.all()
     num = random.randrange(0,len(place_list))
     answer = place_list[num]
-
-
     return render(
         request,
         'mapquiz/quiz.html',
@@ -16,4 +14,6 @@ def quiz(request):
          'ans':answer,}
     )
 
-# Create your views here.
+def index(request):
+    
+    return render(request, 'mapquiz/index.html')
