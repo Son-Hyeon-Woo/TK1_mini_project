@@ -20,9 +20,9 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('map/', include('mapquiz.urls')),
-<<<<<<< HEAD
+
     path('pb/', include('placeboard.urls')),
-=======
+
     path('member/', include('member.urls')),
->>>>>>> d884e4b3656e4133f33749bae1fcafbf4980aee2
+
 ]
