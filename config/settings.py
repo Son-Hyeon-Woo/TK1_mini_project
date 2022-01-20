@@ -33,11 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'member',
     'mapquiz',
-<<<<<<< HEAD
     'bootstrap4',
-=======
     'placeboard',
->>>>>>> 33a40ccb0e9b59820b0732517ae5aed0928b7897
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
