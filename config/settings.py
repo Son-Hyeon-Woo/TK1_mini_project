@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'member',
     'mapquiz',
     'placeboard',
     'django.contrib.admin',
