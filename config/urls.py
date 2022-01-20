@@ -20,4 +20,5 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('map/', include('mapquiz.urls')),
+    path('member/', include('member.urls')),
 ]
