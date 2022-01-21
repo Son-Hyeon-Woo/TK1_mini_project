@@ -2,17 +2,18 @@ from platform import java_ver
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 from .models import Place
-import random
+import random, json
+
 def quiz(request):
     place_list = Place.objects.all()
     num = random.randrange(0,len(place_list))
     answer = place_list[num]
-    return render(
-        request,
-        'mapquiz/quiz.html',
-        {'data': place_list,
-         'ans':answer,}
-    )
+    latlong = {
+        'lat' : answer.place_lat,
+        'long' : answer.place_long
+    }
+    latlong_json = json.dumps(latlong)
+    return render( request, 'mapquiz/quiz.html', {'latlong_json': latlong_json,})
 
 def index(request):
     

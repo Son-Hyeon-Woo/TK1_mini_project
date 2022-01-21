@@ -17,22 +17,10 @@
         }
         .Hyemin{ font-family: 'IM_Hyemin-Bold', normal; }
         .italic{ font-style: italic }
-        .goquiz button {
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: calc(1rem + 2px);
-            }
         .gohome {
             position: absolute; left : 10px; top : 5px;
-            font-size: 0.55rem;
-            font-weight: 100;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: calc(1rem + 2px);
-            padding: 0.4rem 5rem;
-            font-size: 1rem;
             }    
         .custombtn {
             display: inline-block;
@@ -45,45 +33,58 @@
             text-decoration: none;
             vertical-align: middle;
             cursor: pointer;
-            -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                    user-select: none;
+            user-select: none;
             border: 1px solid transparent;
-            padding: 0.4rem 10rem;
+            padding: 0.4rem 2%;
             font-size: 1.5rem;
             border-radius: 0.25rem;
             transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
             }
-            .custombtn:hover {
+        .custombtn:hover {
             color: #fff;
             background-color: #244848;
             border-color: #224444;
             }
 
         .minimap {
+            transition : 0.5s;
             position: absolute;
             bottom : 70px;
             right : 6px;
-            width: 500px;
-            height: 280px;
+            width: 30%;
+            height: 38%;
             border-radius: 30px;
           }
-        .minimap:hover {
-            transition : 0.5s;
-            width: 600px;
-            height: 336px;
-            border-radius: 30px;
-          }
-    </style>
+
+        #hidden_btn {
+            position: absolute;
+            bottom : 50px;
+            left : 50%;
+            transform : translate(-50%);
+            padding: 0.1rem 38%%;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #2a5555;
+            background-color: #fff;
+            border-color: #2a5555;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            border: 2px solid #2a5555;
+            font-size: 1.5rem;
+            border-radius: 0.4rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            }
+        }
+        
+    
+    
+        </style>
 </head>
 <body>
-
-<input type="hidden" id="lat" name="variable" value="{{ ans.place_lat }}">
-<input type="hidden" id="long" name="variable" value="{{ ans.place_long  }}">
-
 <nav class="Hyemin" style = 'text-align: center;';>
-    <h2>시작한 장소를 맞추세요</h2>
+    <h2>이 곳을 맞춰볼까요?</h2>
     <button class="custombtn gohome Hyemin"  id="submitButton" type="botton" onclick="location.href='http://127.0.0.1:8000/map/home'"> 홈으로 </button></div>
 
 </nav>
@@ -94,14 +95,13 @@
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=82cdfefd8c371330aa8531c5f89338c6"></script>
 <script>
-var lat = document.getElementById("lat").value; //html element 가져오기
-var long = document.getElementById("long").value;
+var latlong = JSON.parse("{{ latlong_json|escapejs }}");
 
 var roadviewContainer = document.getElementById('roadview'); //로드뷰를 표시할 div
 var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
 var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
 
-var position = new kakao.maps.LatLng(lat, long);
+var position = new kakao.maps.LatLng(latlong['lat'], latlong['long']);
 
 // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
 roadviewClient.getNearestPanoId(position, 50, function(panoId) {
@@ -109,21 +109,29 @@ roadviewClient.getNearestPanoId(position, 50, function(panoId) {
 });
 </script>
 
+
 <!-- 미니맵를 표시할 div 입니다 -->
 <!-- 미니맵를 표시할 div 입니다 -->
 <div id="map" class = 'minimap'></div>
-<p><em>지도를 클릭해주세요!</em></p> 
-<div id="clickLatlng"></div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은 APP KEY를 사용하세요"></script>
+<p><em>지도를 클릭해주세요!</em></p> 
+
+<div id="clickLatlng" ></div>
+
+
 <script>
+
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
         center: new kakao.maps.LatLng(35.87152628630865, 128.60172139697093), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };
 
+
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+var temp = document.getElementById('map');
+temp.style.width = '20%'
+temp.style.height = '26%'
 
 // 지도를 클릭한 위치에 표출할 마커입니다
 var marker = new kakao.maps.Marker({ 
@@ -135,8 +143,21 @@ marker.setMap(map);
 
 // 지도에 클릭 이벤트를 등록합니다
 // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
-    
+
+var temp = document.getElementById('map');
+
+kakao.maps.event.addListener(map, 'mouseout', function() {
+    temp.style.width = '20%'
+    temp.style.height = '26%'
+});
+kakao.maps.event.addListener(map, 'mouseover', function() {
+    temp.style.width = '30%'
+    temp.style.height = '38%'
+});
+
+
+kakao.maps.event.addListener(map, 'click', function(mouseEvent) {  
+
     // 클릭한 위도, 경도 정보를 가져옵니다 
     var latlng = mouseEvent.latLng; 
     
@@ -150,6 +171,8 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
     resultDiv.innerHTML = message;
     
 });
+
+
 </script>
 
 </body>
