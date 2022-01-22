@@ -11,7 +11,7 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),       <----------------------admin이 unique하지 않다고 이슈떠서 일단 주석해놨어요!! (config에도 있어요)
     # 웹사이트의 첫화면은 index 페이지이다 + URL이름은 index이다
     path('', index, name='index'),
     # URL:80/blog에 접속하면 blog 페이지 + URL이름은 blog이다
