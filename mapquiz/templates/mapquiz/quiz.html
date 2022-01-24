@@ -363,6 +363,8 @@ function show() {
 
 // 점수확인 버튼 클릭시 페이지 이동
 function close() {
+    var point = {'first' : (1000 - Math.round(dist))}
+    
     document.querySelector(".background").className = "background";
     window.location.href = '/map/quizend'
 }
