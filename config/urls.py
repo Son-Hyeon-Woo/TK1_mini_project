@@ -24,5 +24,7 @@ urlpatterns = [
     path('pb/', include('placeboard.urls')),
 
     path('member/', include('member.urls')),
+    
+    path('rank/', include('rank.urls')),
 
 ]
